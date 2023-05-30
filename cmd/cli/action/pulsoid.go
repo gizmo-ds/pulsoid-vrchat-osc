@@ -36,6 +36,9 @@ func (p *Pulsoid) startOscServer() {
 					break
 				}
 			}
+			log.Info().
+				Bool("Enabled", enabled).
+				Msg("OSC enabled")
 			p.enabled = enabled
 		}
 	})
