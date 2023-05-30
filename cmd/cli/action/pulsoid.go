@@ -29,6 +29,14 @@ func (p *Pulsoid) startOscServer() {
 	_ = d.AddMsgHandler("/avatar/change", func(msg *osc.Message) {
 		if id, ok := msg.Arguments[0].(string); ok {
 			log.Debug().Str("AvatarID", id).Msg("Avatar changed")
+			enabled := false
+			for _, eid := range global.Config.EnableAvatars {
+				if eid == id {
+					enabled = true
+					break
+				}
+			}
+			p.enabled = enabled
 		}
 	})
 	server := &osc.Server{
