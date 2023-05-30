@@ -3,7 +3,8 @@ package main
 import (
 	"os"
 
-	"github.com/gizmo-ds/go-cli-template/cmd/example/commands"
+	"github.com/gizmo-ds/pulsoid-vrchat-osc/cmd/cli/action"
+	"github.com/gizmo-ds/pulsoid-vrchat-osc/internal/global"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/rs/zerolog/pkgerrors"
@@ -18,10 +19,9 @@ func init() {
 
 func main() {
 	_ = (&cli.App{
-		Name:     "example",
-		Version:  AppVersion,
-		Suggest:  true,
-		Commands: commands.Commands,
+		Name:    "pulsoid-vrchat-osc",
+		Version: AppVersion,
+		Suggest: true,
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
 				Name:  "no-color",
@@ -34,13 +34,27 @@ func main() {
 				Value:       1,
 				DefaultText: "Info",
 			},
+			&cli.StringFlag{
+				Name:    "config",
+				Aliases: []string{"c"},
+				Usage:   "Path to config file",
+				Value:   "config.toml",
+			},
 		},
 		Before: func(c *cli.Context) error {
-			zerolog.SetGlobalLevel(zerolog.Level(c.Int("log-level")))
 			log.Logger = zerolog.New(zerolog.ConsoleWriter{
 				Out:     os.Stderr,
 				NoColor: c.Bool("no-color"),
 			}).With().Timestamp().Logger()
+			err := global.LoadConfig(c.String("config"))
+			if err != nil {
+				return err
+			}
+			logLevel := c.Int("log-level")
+			if global.Config.Logger.Level != nil {
+				logLevel = *global.Config.Logger.Level
+			}
+			zerolog.SetGlobalLevel(zerolog.Level(logLevel))
 			return nil
 		},
 		ExitErrHandler: func(c *cli.Context, err error) {
@@ -48,5 +62,6 @@ func main() {
 				log.Fatal().Err(err).Msg("Failed to run command")
 			}
 		},
+		Action: action.Action,
 	}).Run(os.Args)
 }

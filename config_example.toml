@@ -1,0 +1,12 @@
+address = "127.0.0.1:10001"
+widget_id = "<PulsoidWidgetID>"
+enable_avatars = [
+    "<AvatarID>",
+]
+
+[vrchat]
+port = 9000
+
+[logger]
+# 0 = Debug, 1 = Info, 2 = Warn, 3 = Error, 4 = Fatal, 5 = Panic, other = NoLog
+level = 1

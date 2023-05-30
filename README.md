@@ -1,1 +1,1 @@
-# go-cli-template
+# pulsoid-vrchat-osc

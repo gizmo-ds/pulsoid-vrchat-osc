@@ -1,6 +1,6 @@
-NAME=example
-MAIN=cmd/example/main.go
-PKGNAME=github.com/gizmo-ds/go-cli-template
+NAME=pulsoid-vrchat-osc
+MAIN=cmd/cli/main.go
+PKGNAME=github.com/gizmo-ds/pulsoid-vrchat-osc
 OUTDIR=build
 VERSION=$(shell git describe --tags --always --dirty)
 FLAGS+=-trimpath
