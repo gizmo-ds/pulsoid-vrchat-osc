@@ -3,6 +3,7 @@ widget_id = "<PulsoidWidgetID>"
 enable_avatars = [
     "<AvatarID>",
 ]
+parameter_name = "OSC_HeartRate"
 
 [vrchat]
 port = 9000

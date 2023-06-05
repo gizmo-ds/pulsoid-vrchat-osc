@@ -71,7 +71,7 @@ func (p *Pulsoid) Start() {
 			continue
 		}
 		if p.enabled {
-			msg := osc.NewMessage("/avatar/parameters/OSC_HeartRate")
+			msg := osc.NewMessage("/avatar/parameters/" + global.Config.ParameterName)
 			msg.Append(float32(result.Data.HeartRate)/127 - 1)
 			if err = p.client.Send(msg); err != nil {
 				log.Error().Err(err).Msg("Could not send OSC message")

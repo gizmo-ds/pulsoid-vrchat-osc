@@ -10,6 +10,7 @@ type Config struct {
 	Address       string   `toml:"address"`
 	WidgetID      string   `toml:"widget_id"`
 	EnableAvatars []string `toml:"enable_avatars"`
+	ParameterName string   `toml:"parameter_name"`
 	VRChat        struct {
 		Port int `toml:"port"`
 	} `toml:"vrchat"`
