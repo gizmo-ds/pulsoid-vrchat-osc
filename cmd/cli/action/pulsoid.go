@@ -1,6 +1,8 @@
 package action
 
 import (
+	"strings"
+
 	"github.com/fasthttp/websocket"
 	"github.com/gizmo-ds/pulsoid-vrchat-osc/internal/global"
 	"github.com/gizmo-ds/pulsoid-vrchat-osc/pkg/pulsoid"
@@ -32,7 +34,7 @@ func (p *Pulsoid) startOscServer() {
 				log.Debug().Str("AvatarID", id).Msg("Avatar changed")
 				enabled := false
 				for _, eid := range global.Config.EnableAvatars {
-					if eid == id {
+					if eid == id || (eid == "local" && strings.HasPrefix(id, "local:")) {
 						enabled = true
 						break
 					}
