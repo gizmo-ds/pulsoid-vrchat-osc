@@ -11,8 +11,6 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-var AppVersion = "development"
-
 func init() {
 	zerolog.ErrorStackMarshaler = pkgerrors.MarshalStack
 }
@@ -20,7 +18,7 @@ func init() {
 func main() {
 	_ = (&cli.App{
 		Name:    "pulsoid-vrchat-osc",
-		Version: AppVersion,
+		Version: global.AppVersion,
 		Suggest: true,
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
