@@ -26,20 +26,22 @@ func NewPulsoid() *Pulsoid {
 
 func (p *Pulsoid) startOscServer() {
 	d := osc.NewStandardDispatcher()
-	_ = d.AddMsgHandler("/avatar/change", func(msg *osc.Message) {
-		if id, ok := msg.Arguments[0].(string); ok {
-			log.Debug().Str("AvatarID", id).Msg("Avatar changed")
-			enabled := false
-			for _, eid := range global.Config.EnableAvatars {
-				if eid == id {
-					enabled = true
-					break
+	_ = d.AddMsgHandler("*", func(msg *osc.Message) {
+		if msg.Address == "/avatar/change" {
+			if id, ok := msg.Arguments[0].(string); ok {
+				log.Debug().Str("AvatarID", id).Msg("Avatar changed")
+				enabled := false
+				for _, eid := range global.Config.EnableAvatars {
+					if eid == id {
+						enabled = true
+						break
+					}
 				}
+				log.Info().
+					Bool("Enabled", enabled).
+					Msg("OSC enabled")
+				p.enabled = enabled
 			}
-			log.Info().
-				Bool("Enabled", enabled).
-				Msg("OSC enabled")
-			p.enabled = enabled
 		}
 	})
 	server := &osc.Server{
