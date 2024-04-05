@@ -1,13 +1,13 @@
+# osc listen address, if empty then disable osc server
 address = "127.0.0.1:10001"
 widget_id = "<PulsoidWidgetID>"
+# only send heart rate to these avatars, if empty then send to all avatars
 enable_avatars = [
     "<AvatarID>",
 ]
 parameter_name = "OSC_HeartRate"
 
-[vrchat]
-port = 9000
+vrchat.port = 9000
 
-[logger]
 # trace, debug, info, warn, error, fatal, panic, disabled
-level = "info"
+logger.level = "info"

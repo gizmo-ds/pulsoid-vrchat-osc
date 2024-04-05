@@ -28,6 +28,10 @@ func NewPulsoid() *Pulsoid {
 }
 
 func (p *Pulsoid) startOscServer() {
+	if global.Config.Address == "" || len(global.Config.EnableAvatars) == 0 {
+		log.Info().Msg("OSC server disabled")
+		return
+	}
 	d := osc.NewStandardDispatcher()
 	_ = d.AddMsgHandler("*", func(msg *osc.Message) {
 		if msg.Address == "/avatar/change" {
