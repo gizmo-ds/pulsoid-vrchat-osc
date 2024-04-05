@@ -1,11 +1,12 @@
 package action
 
 import (
+	"errors"
 	"strings"
 
-	"github.com/fasthttp/websocket"
 	"github.com/gizmo-ds/pulsoid-vrchat-osc/internal/global"
 	"github.com/gizmo-ds/pulsoid-vrchat-osc/pkg/pulsoid"
+	"github.com/gorilla/websocket"
 	"github.com/hypebeast/go-osc/osc"
 	"github.com/rs/zerolog/log"
 )
@@ -71,6 +72,11 @@ func (p *Pulsoid) Start() {
 		var result pulsoid.WebSocketResult
 		err = conn.ReadJSON(&result)
 		if err != nil {
+			var e *websocket.CloseError
+			if errors.As(err, &e) {
+				log.Error().Err(e).Msg("Pulsoid disconnected")
+				return
+			}
 			log.Error().Err(err).Msg("Could not read from pulsoid")
 			continue
 		}
