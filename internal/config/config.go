@@ -15,7 +15,7 @@ type Config struct {
 		Port int `toml:"port"`
 	} `toml:"vrchat"`
 	Logger struct {
-		Level *int `toml:"level"`
+		Level any `toml:"level"`
 	} `toml:"logger"`
 }
 

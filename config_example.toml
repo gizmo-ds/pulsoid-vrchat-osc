@@ -9,5 +9,5 @@ parameter_name = "OSC_HeartRate"
 port = 9000
 
 [logger]
-# 0 = Debug, 1 = Info, 2 = Warn, 3 = Error, 4 = Fatal, 5 = Panic, other = NoLog
-level = 1
+# trace, debug, info, warn, error, fatal, panic, disabled
+level = "info"
