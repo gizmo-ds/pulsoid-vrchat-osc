@@ -87,29 +87,38 @@ func (p *Pulsoid) Start() {
 		}
 		if p.enabled {
 			if global.Config.FloatParameterName == "" && global.Config.IntParameterName == "" {
-				log.Warn().Int("HeartRate", result.Data.HeartRate).Msg("HeartRate not sent")
+				log.Warn().Int("HeartRate", result.Data.HeartRate).Msg("HeartRate OSC parameters config is empty")
 				continue
 			}
 
 			bundle := osc.NewBundle(time.Now())
 
 			if global.Config.FloatParameterName != "" {
-				floatMsg := osc.NewMessage("/avatar/parameters/" + global.Config.FloatParameterName)
-				floatMsg.Append(float32(clampIntRange(result.Data.HeartRate, 0, 254))/127 - 1)
+				address := "/avatar/parameters/" + global.Config.FloatParameterName
+				value := float32(clampIntRange(result.Data.HeartRate, 0, 254))/127 - 1
+
+				floatMsg := osc.NewMessage(address)
+				floatMsg.Append(value)
 				bundle.Append(floatMsg)
+
+				log.Info().Float32(address, value).Msg("HeartRate OSC packet added")
 			}
 
 			if global.Config.IntParameterName != "" {
-				intMsg := osc.NewMessage("/avatar/parameters/" + global.Config.IntParameterName)
-				intMsg.Append(int32(clampIntRange(result.Data.HeartRate, 0, 255)))
+				address := "/avatar/parameters/" + global.Config.IntParameterName
+				value := int32(clampIntRange(result.Data.HeartRate, 0, 255))
+
+				intMsg := osc.NewMessage(address)
+				intMsg.Append(value)
 				bundle.Append(intMsg)
+				log.Info().Int32(address, value).Msg("HeartRate OSC packet added")
 			}
 
 			if err = p.client.Send(bundle); err != nil {
 				log.Error().Err(err).Msg("Could not send OSC message")
 				continue
 			}
-			log.Info().Int("HeartRate", result.Data.HeartRate).Msg("HeartRate sent")
+			log.Info().Int("HeartRate", result.Data.HeartRate).Msg("HeartRate OSC sent")
 		}
 	}
 }
