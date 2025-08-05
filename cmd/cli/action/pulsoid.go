@@ -86,7 +86,7 @@ func (p *Pulsoid) Start() {
 			continue
 		}
 		if p.enabled {
-			if global.Config.FloatParameterName == "" || global.Config.IntParameterName == "" {
+			if global.Config.FloatParameterName == "" && global.Config.IntParameterName == "" {
 				log.Warn().Int("HeartRate", result.Data.HeartRate).Msg("HeartRate not sent")
 				continue
 			}
