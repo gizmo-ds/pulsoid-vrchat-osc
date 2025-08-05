@@ -5,7 +5,12 @@ widget_id = "<PulsoidWidgetID>"
 enable_avatars = [
     "<AvatarID>",
 ]
-parameter_name = "OSC_HeartRate"
+
+# osc parameters, if empty then not send message
+#   range: heart rage 0~254 map to -1.0f~1.0f
+float_parameter_name = "OSC_HeartRate_Float"
+#   range: heart range 0~255
+int_parameter_name = "OSC_HeartRate_Int"
 
 vrchat.port = 9000
 

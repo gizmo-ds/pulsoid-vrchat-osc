@@ -3,6 +3,7 @@ package action
 import (
 	"errors"
 	"strings"
+	"time"
 
 	"github.com/gizmo-ds/pulsoid-vrchat-osc/internal/global"
 	"github.com/gizmo-ds/pulsoid-vrchat-osc/pkg/pulsoid"
@@ -85,9 +86,26 @@ func (p *Pulsoid) Start() {
 			continue
 		}
 		if p.enabled {
-			msg := osc.NewMessage("/avatar/parameters/" + global.Config.ParameterName)
-			msg.Append(float32(result.Data.HeartRate)/127 - 1)
-			if err = p.client.Send(msg); err != nil {
+			if global.Config.FloatParameterName == "" || global.Config.IntParameterName == "" {
+				log.Warn().Int("HeartRate", result.Data.HeartRate).Msg("HeartRate not sent")
+				continue
+			}
+
+			bundle := osc.NewBundle(time.Now())
+
+			if global.Config.FloatParameterName != "" {
+				floatMsg := osc.NewMessage("/avatar/parameters/" + global.Config.FloatParameterName)
+				floatMsg.Append(float32(clampIntRange(result.Data.HeartRate, 0, 254))/127 - 1)
+				bundle.Append(floatMsg)
+			}
+
+			if global.Config.IntParameterName != "" {
+				intMsg := osc.NewMessage("/avatar/parameters/" + global.Config.IntParameterName)
+				intMsg.Append(clampIntRange(result.Data.HeartRate, 0, 255))
+				bundle.Append(intMsg)
+			}
+
+			if err = p.client.Send(bundle); err != nil {
 				log.Error().Err(err).Msg("Could not send OSC message")
 				continue
 			}
@@ -103,4 +121,14 @@ func (p *Pulsoid) GetRamielUrl() {
 	} else {
 		p.RamielUrl = u
 	}
+}
+
+func clampIntRange(number int, min int, max int) int {
+	if number < min {
+		number = min
+	}
+	if number > max {
+		number = max
+	}
+	return number
 }
