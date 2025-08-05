@@ -101,7 +101,7 @@ func (p *Pulsoid) Start() {
 
 			if global.Config.IntParameterName != "" {
 				intMsg := osc.NewMessage("/avatar/parameters/" + global.Config.IntParameterName)
-				intMsg.Append(clampIntRange(result.Data.HeartRate, 0, 255))
+				intMsg.Append(int32(clampIntRange(result.Data.HeartRate, 0, 255)))
 				bundle.Append(intMsg)
 			}
 
