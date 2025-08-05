@@ -1,17 +1,22 @@
-# osc listen address, if empty then disable osc server
-address = "127.0.0.1:10001"
+# Please rename this file to `config.toml` before use
+
+# [required] Pulsoid Widget ID
 widget_id = "<PulsoidWidgetID>"
-# only send heart rate to these avatars, if empty then send to all avatars
+
+# [option] osc listen address, if empty then disable osc server
+address = "127.0.0.1:10001"
+# [option] only send heart rate to these avatars, if empty then send to all avatars
 enable_avatars = [
     "<AvatarID>",
 ]
 
 # osc parameters, if empty then not send message
-#   range: heart rage 0~254 map to -1.0f~1.0f
+# [option] range: heart rage 0~254 map to -1.0f~1.0f
 float_parameter_name = "OSC_HeartRate_Float"
-#   range: heart range 0~255
+# [option] range: heart range 0~255
 int_parameter_name = "OSC_HeartRate_Int"
 
+# [required] VRChat OSC port
 vrchat.port = 9000
 
 # trace, debug, info, warn, error, fatal, panic, disabled
