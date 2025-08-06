@@ -7,11 +7,12 @@ import (
 )
 
 type Config struct {
-	Address       string   `toml:"address"`
-	WidgetID      string   `toml:"widget_id"`
-	EnableAvatars []string `toml:"enable_avatars"`
-	ParameterName string   `toml:"parameter_name"`
-	VRChat        struct {
+	Address            string   `toml:"address"`
+	WidgetID           string   `toml:"widget_id"`
+	EnableAvatars      []string `toml:"enable_avatars"`
+	FloatParameterName string   `toml:"float_parameter_name"`
+	IntParameterName   string   `toml:"int_parameter_name"`
+	VRChat             struct {
 		Port int `toml:"port"`
 	} `toml:"vrchat"`
 	Logger struct {
